@@ -1,0 +1,38 @@
+@startuml
+
+entity "Customer" as Customer {
+  * customer_id : int <<PK>>
+  --
+  * name : varchar
+  * email : varchar
+  * phone : varchar
+}
+
+entity "Order" as Order {
+  * order_number : int <<PK>>
+  --
+  * order_date : date
+  * total_price : decimal
+  * customer_id : int <<FK>>
+}
+
+entity "Product" as Product {
+  * product_number : varchar <<PK>>
+  --
+  * product_name : varchar
+  * price : decimal
+}
+
+entity "OrderDetails" as OrderDetails {
+  * order_number : int <<FK>>
+  * product_number : varchar <<FK>>
+  --
+  * quantity : int
+}
+
+Customer ||--o{ Order
+Order ||--o{ OrderDetails
+Product ||--o{ OrderDetails
+
+@enduml
+

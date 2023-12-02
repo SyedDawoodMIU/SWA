@@ -1,0 +1,21 @@
+@startuml
+
+collection "Orders" {
+  * order_number : int
+  --
+  * order_date : date
+  * total_price : decimal
+  * customer : object {
+      name : varchar
+      email : varchar
+      phone : varchar
+  }
+  * items : array of object {
+      product_number : varchar
+      product_name : varchar
+      price : decimal
+      quantity : int
+  }
+}
+
+@enduml

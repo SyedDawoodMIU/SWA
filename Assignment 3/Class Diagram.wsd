@@ -1,0 +1,137 @@
+@startuml
+
+package "Presentation Layer" {
+  class ShoppingCartController {
+    + addItem()
+    + removeItem()
+    + checkout()
+  }
+  class ProductController {
+    + addProduct()
+    + updateProduct()
+    + deleteProduct()
+  }
+  class OrderController {
+    + placeOrder()
+  }
+  class AccountController {
+    + register()
+    + login()
+  }
+}
+
+package "Application Layer" {
+  class ShoppingCartService {
+    + addProduct()
+    + removeProduct()
+    + getCartItems()
+    + checkout()
+  }
+  class ProductService {
+    + addProduct()
+    + updateProduct()
+    + removeProduct()
+    + listProducts()
+  }
+  class OrderService {
+    + createOrder()
+    + payOrder()
+    + getOrderDetails()
+  }
+  class AccountService {
+    + createCustomer()
+    + updateCustomer()
+    + getCustomerDetails()
+  }
+  class EmailService {
+    + sendOrderConfirmation()
+  }
+}
+
+package "Domain Layer" {
+  class Customer <<entity>> {
+    + customerNumber
+    + firstName
+    + lastName
+    + email
+    + phone
+    + addresses
+    + creditCards
+    + orders
+  }
+  class Product <<entity>> {
+    + productNumber
+    + name
+    + price
+    + description
+    + reviews
+    + stockInformation
+    + supplier
+  }
+  class Order <<entity>> {
+    + orderNumber
+    + customer
+    + paymentDetails
+    + shippingAddress
+    + billingAddress
+    + shippingMethod
+    + orderLines
+  }
+  class CreditCard <<entity>> {
+    + cardNumber
+    + cardholderName
+    + expiryDate
+    + cvv
+  }
+  class Address <<value object>> {
+    + street
+    + city
+    + state
+    + postalCode
+    + country
+  }
+  class Money <<value object>> {
+    + amount
+    + currency
+  }
+  class ProductReview <<value object>> {
+    + customer
+    + rating
+    + comment
+  }
+  class Stock <<value object>> {
+    + quantity
+    + locationCode
+  }
+  class Supplier <<value object>> {
+    + name
+    + contactDetails
+  }
+  class OrderPlacedEvent <<domain event>> {
+    + orderDetails
+  }
+  class PaymentProcessingService <<domain service>> {
+    + processPayment()
+  }
+  class InventoryService <<domain service>> {
+    + checkStock()
+    + updateStock()
+  }
+}
+
+package "Infrastructure Layer" {
+  class DatabaseRepository {
+    + add()
+    + update()
+    + remove()
+    + findById()
+  }
+  class EmailClient {
+    + sendEmail()
+  }
+  class PaymentGateway {
+    + processPayment()
+  }
+}
+
+@enduml

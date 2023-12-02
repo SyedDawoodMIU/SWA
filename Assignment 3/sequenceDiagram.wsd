@@ -1,0 +1,27 @@
+@startuml
+
+actor Customer
+
+participant "ShoppingCartController" as SCC
+participant "ShoppingCartService" as SCS
+participant "OrderService" as OS
+participant "PaymentProcessingService" as PPS
+participant "EmailService" as ES
+participant "DatabaseRepository" as DB
+
+Customer -> SCC : placeOrder()
+SCC -> SCS : checkout(cart)
+SCS -> OS : createOrder(cart)
+activate OS
+OS -> PPS : processPayment(creditCardDetails)
+PPS -> DB : savePayment(payment)
+DB -> PPS : paymentConfirmation
+PPS -> OS : paymentSuccessful
+deactivate PPS
+OS -> DB : saveOrder(order)
+DB -> OS : orderConfirmation
+OS -> ES : sendOrderConfirmation(customerEmail, orderDetails)
+ES -> Customer : emailOrderConfirmation
+deactivate OS
+
+@enduml
